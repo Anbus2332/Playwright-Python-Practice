@@ -1,7 +1,7 @@
 from playwright.sync_api import Playwright, expect
 
 
-def test_inputValidation(playwright: Playwright):
+def test_buttonValidation(playwright: Playwright):
     browser = playwright.chromium.launch(headless=False)
     context = browser.new_context()
     page = context.new_page()
