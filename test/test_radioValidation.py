@@ -13,8 +13,9 @@ def test_radioValidation(playwright: Playwright):
     expect(page.locator("#yes")).to_be_checked()
     #Cofirm you can select only one radio button
     page.locator("#two").check()
-    expect(page.locator("#two")).to_be_checked()
-    expect(page.locator("#one")).not_to_be_checked()
+    page.locator("#one").check()
+    expect(page.locator("#two")).not_to_be_checked()
+    expect(page.locator("#one")).to_be_checked()
     #Find the bug
     radio1 = page.locator("#nobug")
     radio1.check()
@@ -35,24 +36,15 @@ def test_radioValidation(playwright: Playwright):
     else:
         print("Both the radio buttons are not selected")
     #Confirm last field is disabled
-    lastField = page.locator("#maybe")
-    if lastField.is_disabled():
-        print("The last field is disabled")
-    else:
-        print("The last filed is enabled")
+    expect(page.locator("#maybe")).to_be_disabled()
+
     #Find the checkbox is selected
-    checkbox = page.get_by_text("Remember me")
-    if checkbox.is_checked():
-        print("checkbox is selected")
-    else:
-        print("checkbox is not selected")
+    expect(page.get_by_text("Remember me")).to_be_checked()
+
     #Accept the T&C:
-    checkbox2 = page.get_by_text("I agree to the")
-    checkbox2.check()
-    if checkbox2.is_checked():
-        print("Check box is accepting the terms and conditions")
-    else:
-        print("Check box is not accepted")
+    page.get_by_text("I agree to the").check()
+    expect(page.get_by_text("I agree to the")).to_be_checked()
+
 
 
 

@@ -17,7 +17,6 @@ def test_frameValidation(playwright: Playwright):
     #Last Name
     page.frame_locator("#firstFr").locator("//input[@name='lname']").fill("M")
     expect(page.frame_locator("#firstFr").locator("//input[@name='lname']")).to_have_value("M")
-    expect(page.frame_locator("#firstFr").locator("//input[@name='lname']")).to_have_value("M")
     expect(page.frame_locator("#firstFr").get_by_text("You have entered Anbuselvan M")).to_be_visible()
     #Email
     (page.frame_locator("#firstFr").frame_locator("//iframe[@src='innerframe']").locator("//input[@name='email']")

@@ -16,15 +16,12 @@ def test_radioValidation(playwright: Playwright):
     new_window = popup_info.value
     expect(new_window).to_have_url("https://letcode.in/test")
     print(new_window.title())
-    page.close()
     new_window.close()
 
 
     #multiple window Handling:
-    page2 = context.new_page()
-    page2.goto("https://letcode.in/window")
-    with page2.expect_popup() as all_pages:
-        page2.locator("#multi").click()
+    with page.expect_popup() as all_pages:
+        page.locator("#multi").click()
     all_pages = context.pages
     for p in all_pages:
         print("childWindows:", p.title())
