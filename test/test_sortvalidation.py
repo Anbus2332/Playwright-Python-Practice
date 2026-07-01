@@ -7,11 +7,12 @@ def test_sortValidation(playwright: Playwright):
     page = context.new_page()
     page.wait_for_load_state()
     page.goto("https://letcode.in/")
+    # page.wait_for_load_state("networkidle")
     page.get_by_role("link", name="Work-Space").click()
     page.locator("//a[@href='/sortable']").click()
 
     todo_list = page.locator('//h2[text()="To do"]/following-sibling::div/div')
-    done_list = page.locator('//h2[text()="Done"]/following-sibling::div')
+    done_list = page.locator('//h2[text()="Done"]/following-sibling::div/div')
 
     todo_count = todo_list.count()
     print(todo_count)
@@ -24,7 +25,7 @@ def test_sortValidation(playwright: Playwright):
         source_box = item.bounding_box()
 
         # Target coordinates
-        target_box = done_list.bounding_box()
+        target_box = done_list.last.bounding_box()
 
         # Move mouse to source
         page.mouse.move(
@@ -34,11 +35,12 @@ def test_sortValidation(playwright: Playwright):
 
         # Hold item
         page.mouse.down()
+        print(target_box["x"],target_box["y"],target_box["width"],target_box["height"])
 
         # Drag slowly to DONE section
         page.mouse.move(
             target_box["x"] + 150,
-            target_box["y"] + 150,
+            target_box["y"],
             steps=50
         )
 

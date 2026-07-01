@@ -21,7 +21,8 @@ def test_dropValidation(playwright: Playwright):
     y2 = (box2["y"] + box2["height"] / 2)
     source_element.hover()
     page.mouse.move(x1,y1)
+    page.mouse.down()
+    page.mouse.move(x2, y2,steps=30)
     page.mouse.up()
-    page.mouse.move(x2, y2,steps=50)
     page.wait_for_timeout(3000)
 

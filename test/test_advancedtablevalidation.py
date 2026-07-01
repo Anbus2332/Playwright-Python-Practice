@@ -8,28 +8,50 @@ def test_advancedtablevalidation(playwright:Playwright):
     page.goto("https://letcode.in/")
     page.get_by_role("link", name="Work-Space").click()
     page.locator("//a[@href='/advancedtable']").click()
-    page.locator("//span[text()='UNIVERSITY NAME']").click()
+    # page.locator("//span[text()='UNIVERSITY NAME']").click()
+    #
+    # #sorting
+    # all_values = []
+    # while True:
+    #     ascending_names = page.locator("//tbody/tr/td[@class='sorting_1']").all_text_contents()
+    #     print(ascending_names)
+    #     all_values.extend(ascending_names)
+    #
+    #     next_button = page.locator("//button[@aria-label='Next']")
+    #     if next_button.is_disabled():
+    #         break
+    #
+    #     next_button.click()
+    #
+    #
+    # print(all_values)
+    #
+    #
+    # expected_names = sorted(all_values)
+    # print(expected_names)
+    # assert expected_names == all_values
 
-    #sorting
-    all_values = []
+    # descending order
+    page.locator("//span[text()='UNIVERSITY NAME']").dblclick()
+
+    descending_values = []
     while True:
-        ascending_names = page.locator("//tbody/tr/td[@class='sorting_1']").all_text_contents()
-        print(ascending_names)
-        all_values.extend(ascending_names)
 
-        next_button = page.locator("//button[@aria-label='Next']")
-        if next_button.is_disabled():
+        descending_results = page.locator("//tbody/tr/td[@class='sorting_1']").all_text_contents()
+
+
+        print(descending_results)
+        descending_values.extend(descending_results)
+
+        next_icon = page.locator("//button[@aria-label='Next']")
+        if next_icon.is_disabled():
             break
+        next_icon.click()
+        print(descending_values)
 
-        next_button.click()
-
-
-    print(all_values)
-
-
-    expected_names = sorted(all_values)
-    print(expected_names)
-    assert expected_names == all_values
+        expected_descending_names = sorted(descending_values, reverse=True)
+        print(expected_descending_names)
+        assert descending_values == expected_descending_names
 
     # check search is working
     search_values = ["University of Paisley", "https://www.rfhsm.ac.uk/", "32", "89"]
@@ -74,5 +96,14 @@ def test_advancedtablevalidation(playwright:Playwright):
             print(f"Results validated for : {value}")
 
         search_box.clear()
+
+        # Check dropdown selection is working fine
+        dropdown = page.locator("//select[@aria-controls='advancedtable']")
+        options = dropdown.locator("option").all_text_contents()
+        dropdown.select_option(value="25")
+        expect(page.locator("//div[text()='Showing 1 to 25 of 47 entries']")).to_have_text("Showing 1 to 25 of 47 entries")
+
+
+
 
 

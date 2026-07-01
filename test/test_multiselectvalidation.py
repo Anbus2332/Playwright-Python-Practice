@@ -18,6 +18,6 @@ def test_multiselectValidation(playwright: Playwright):
         selected_item = select.nth(i)
         selected_item.click()
         print(selected_item.text_content())
-        page.wait_for_timeout(2000)
+        # page.wait_for_timeout(2000)
     page.wait_for_timeout(2000)
     browser.close()
