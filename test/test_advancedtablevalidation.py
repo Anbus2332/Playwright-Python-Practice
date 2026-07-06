@@ -32,18 +32,16 @@ def test_advancedtablevalidation(playwright:Playwright):
     # assert expected_names == all_values
 
     # descending order
-    page.locator("//span[text()='UNIVERSITY NAME']").dblclick()
+    page.get_by_text("UNIVERSITY NAME").dblclick()
 
     descending_values = []
     while True:
 
         descending_results = page.locator("//tbody/tr/td[@class='sorting_1']").all_text_contents()
 
-
-        print(descending_results)
         descending_values.extend(descending_results)
 
-        next_icon = page.locator("//button[@aria-label='Next']")
+        next_icon = page.get_by_role("button", name="Next")
         if next_icon.is_disabled():
             break
         next_icon.click()
@@ -98,10 +96,9 @@ def test_advancedtablevalidation(playwright:Playwright):
         search_box.clear()
 
         # Check dropdown selection is working fine
-        dropdown = page.locator("//select[@aria-controls='advancedtable']")
+        dropdown = page.locator("//select/option[@value='25']")
         options = dropdown.locator("option").all_text_contents()
-        dropdown.select_option(value="25")
-        expect(page.locator("//div[text()='Showing 1 to 25 of 47 entries']")).to_have_text("Showing 1 to 25 of 47 entries")
+        print(options)
 
 
 

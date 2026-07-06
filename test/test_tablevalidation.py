@@ -9,7 +9,7 @@ def test_tableValidation(playwright: Playwright):
     page.goto("https://letcode.in/")
     page.get_by_role("link", name="Work-Space").click()
 
-    #Add all the prices and check if the total is correct
+    # Add all the prices and check if the total is correct
     page.locator("//a[@href='/table']").click()
     prices = page.locator("//table[@id='shopping']//tbody/tr/td[2]").all_inner_texts()
     total = 0
@@ -18,22 +18,20 @@ def test_tableValidation(playwright: Playwright):
 
     print(price)
 
-    defined_total = page.locator("//tfoot/td[2]").text_content()
+    defined_total = page.locator("//tfoot/tr/td[2]").text_content()
     defined_total = int(defined_total)
     print(defined_total)
 
     assert total == defined_total
     print("Total is matching")
 
-
-
-    #Mark Raj as present
-    check_box2 = page.locator("//table[@id='simpletable']//input[@class='qe']")
+    # Mark Raj as present
+    check_box2 = page.locator("//table[@id='simpletable']//input[@id='second']")
     check_box2.click()
     expect(check_box2).to_be_checked()
-    check_box1 = page.locator("//table[@id='simpletable']//input[@class='q']")
+    check_box1 = page.locator("//table[@id='simpletable']//input[@id='first']")
     expect(check_box1).not_to_be_checked()
-    check_box3 = page.locator("//table[@id='simpletable']//input[@class='qd']")
+    check_box3 = page.locator("//table[@id='simpletable']//input[@id='third']")
     expect(check_box3).not_to_be_checked()
 
     page.get_by_role("columnheader", name="Dessert (100g)").click()
